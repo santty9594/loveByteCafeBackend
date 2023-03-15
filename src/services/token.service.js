@@ -35,16 +35,15 @@ const verifyToken = async (token, type) => {
   return tokenDoc;
 };
 
-const generateVerifyPhoneToken = async (user) => {
-  const expires = moment().add(config.jwt.verifyEmailExpirationMinutes, 'minutes');
-  const verifyPhoneToken = generateToken(user._id, expires, tokenTypes.VERIFY_PHONE);
-  await saveToken(verifyPhoneToken, user._id, expires, tokenTypes.VERIFY_PHONE);
-  return verifyPhoneToken;
+const generateAuthTokens = async (user) => {
+  const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
+  const accessToken = generateToken(user._id, accessTokenExpires, tokenTypes.ACCESS);
+  return accessToken;
 };
 
 module.exports = {
   generateToken,
   saveToken,
   verifyToken,
-  generateVerifyPhoneToken,
+  generateAuthTokens,
 };

@@ -6,7 +6,6 @@ const Token = require('../models/token.model');
 const ApiError = require('../utils/ApiError');
 const { tokenTypes } = require('../config/tokens');
 
-
 const logout = async (refreshToken) => {
   const refreshTokenDoc = await Token.findOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
   if (!refreshTokenDoc) {
@@ -29,29 +28,16 @@ const refreshAuth = async (refreshToken) => {
   }
 };
 
-const resetPassword = async (resetPasswordToken, newPassword) => {
-  try {
-    const resetPasswordTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
-    const user = await userService.getUserById(resetPasswordTokenDoc.user);
-    if (!user) {
-      throw new Error();
-    }
-    await userService.updateUserById(user.id, { password: newPassword });
-    await Token.deleteMany({ user: user.id, type: tokenTypes.RESET_PASSWORD });
-  } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
-  }
-};
 
 const verifyPhoneOtp = async (body) => {
   try {
     const { otp, phone } = body;
     const user = await User.findOne({ phone });
     if (!user) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, 'USER_NOT_FOUND_ERR');
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'User not Found');
     }
     if (user.phoneOtp !== otp) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, 'INCORRECT_OTP_ERR');
+      throw new ApiError(httpStatus.UNAUTHORIZED, ' Incorrect Opt');
     }
     return user;
   } catch (error) {
@@ -62,6 +48,5 @@ const verifyPhoneOtp = async (body) => {
 module.exports = {
   logout,
   refreshAuth,
-  resetPassword,
   verifyPhoneOtp,
 };
