@@ -5,7 +5,6 @@ const userRoute = require('./user.route');
 const menuRoute = require('./menu.route');
 const orderRoute = require('./order.route');
 const outletRoute = require('./outlet.route');
-
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 

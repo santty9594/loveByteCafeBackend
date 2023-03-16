@@ -7,14 +7,15 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
+      required: true,
       trim: true,
     },
     type: {
-      type: String,  // veg nonveg
+      type: String, 
       trim: true,
     },
     status: {
-      type: String,  // veg nonveg
+      type: String, 
       trim: true,
     },
     price: {

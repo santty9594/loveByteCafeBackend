@@ -1,32 +1,29 @@
 const passport = require('passport');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
-const { roleRights } = require('../config/roles');
+const { tokenTypes } = require('../config/tokens');
+const { tokenService } = require('../services');
 
-const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
-  resolve();
-  if (err || info || !user) {
-    return reject(new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate'));
-  }
-  req.user = user;
-  if (requiredRights.length) {
-    const userRights = roleRights.get(user.role);
-    const hasRequiredRights = requiredRights.every((requiredRight) => userRights.includes(requiredRight));
-    if (!hasRequiredRights && req.params.userId !== user.id) {
-      return reject(new ApiError(httpStatus.FORBIDDEN, 'Forbidden'));
+const auth = () => async (req, res, next) => {
+  try {
+    const header = req.headers.authorization
+    if (!header) {
+      throw new ApiError(httpStatus.FORBIDDEN, 'auth header is missing');
     }
+    const token = header.split("Bearer ")[1];
+
+    if (!token) {
+      throw new ApiError(httpStatus.FORBIDDEN, 'auth token is missing');
+    }
+    const userId = await tokenService.verifyToken(token);
+
+    if (!userId) {
+      throw new ApiError(httpStatus.FORBIDDEN, 'use not exist');
+    }
+    next()
+  } catch (err) {
+    next(err)
   }
-
-  resolve();
 };
-
-const auth = (...requiredRights) => async (req, res, next) => {
-  console.log("auth>>>>>")
-  // return new Promise((resolve, reject) => {
-  //   passport.authenticate('jwt', { session: false }, verifyCallback(req, resolve, reject, requiredRights))(req, res, next);
-  // }).then(() => next())
-  //   .catch((err) => next(err));
-};
-
 
 module.exports = auth;

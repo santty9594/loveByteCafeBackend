@@ -4,6 +4,6 @@ const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
-router.post('/create', auth, orderController.createOrder);
+router.post('/create', auth(), orderController.createOrder);
 
 module.exports = router;

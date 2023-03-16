@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const { orderService } = require('../services');
 
 const createOrder = catchAsync(async (req, res) => {
+  
   const Order = await orderService.createOrder(req.body);
   res.status(httpStatus.CREATED).send(Order);
 });
