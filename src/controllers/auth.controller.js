@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const generateOTP = require('../utils/generateOTP');
+const { generateOTP } = require('../utils/helper');
 const { smsService, authService, userService, tokenService, emailService } = require('../services');
 
 const register = catchAsync(async (req, res) => {
@@ -9,18 +9,16 @@ const register = catchAsync(async (req, res) => {
     type: "success",
     message: "Account created OTP sended to mobile number",
   });
-  const otp = generateOTP(6);
+  const otp = generateOTP();
   user.phoneOtp = otp;
   await user.save();
-  await smsService.sendSms(otp);
+  await smsService.sendSms(otp, user.phone);
 });
-
 
 const logout = catchAsync(async (req, res) => {
   await authService.logout(req.body.refreshToken);
   res.status(httpStatus.NO_CONTENT).send();
 });
-
 
 const verifyPhoneOtp = catchAsync(async (req, res) => {
   const user = await authService.verifyPhoneOtp(req.body);

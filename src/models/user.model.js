@@ -3,6 +3,11 @@ const validator = require('validator');
 const { toJSON, paginate } = require('./plugins');
 const userSchema = mongoose.Schema(
   {
+    code: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     name: {
       type: String,
       required: true,
@@ -29,7 +34,7 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       trim: true,
-      default:'User'
+      default: 'User'
     },
   },
   {
