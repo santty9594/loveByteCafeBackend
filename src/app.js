@@ -4,11 +4,9 @@ const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const cors = require('cors');
-const passport = require('passport');
 const httpStatus = require('http-status');
 const config = require('./config/config');
 const morgan = require('./config/morgan');
-const { jwtStrategy } = require('./config/passport');
 const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
@@ -35,22 +33,20 @@ app.use(compression());
 app.use(cors());
 app.options('*', cors());
 
-app.use(passport.initialize());
-passport.use('jwt', jwtStrategy);
-
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
 
 app.use('/', routes);
 
-
-app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+app.all('*', (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  // next();
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(errorConverter);
-
 app.use(errorHandler);
 
 module.exports = app;

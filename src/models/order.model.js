@@ -7,7 +7,6 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
       trim: true,
     },
     type: {
@@ -20,6 +19,10 @@ const userSchema = mongoose.Schema(
     },
     price: {
       type: Number,  // veg nonveg
+      trim: 0,
+    },
+    createdBy: {
+      type: String,  // veg nonveg
       trim: 0,
     },
   },

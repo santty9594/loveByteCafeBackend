@@ -7,7 +7,6 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
       trim: true,
     },
     type: {
@@ -17,7 +16,6 @@ const userSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      required: true,
       trim: true,
     },
     address: {
@@ -34,6 +32,10 @@ const userSchema = mongoose.Schema(
       type: String,
       trim: true,
       default: '',
+    },
+    createdBy: {
+      type: String,  // veg nonveg
+      trim: 0,
     },
   },
   {

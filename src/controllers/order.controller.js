@@ -5,7 +5,6 @@ const catchAsync = require('../utils/catchAsync');
 const { orderService } = require('../services');
 
 const createOrder = catchAsync(async (req, res) => {
-  
   const Order = await orderService.createOrder(req.body);
   res.status(httpStatus.CREATED).send(Order);
 });
@@ -18,7 +17,7 @@ const getOrders = catchAsync(async (req, res) => {
 });
 
 const getOrder = catchAsync(async (req, res) => {
-  const Order = await orderService.getOrderById(req.params.OrderId);
+  const Order = await orderService.getOrderById(req.params.id);
   if (!Order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
   }
@@ -26,7 +25,7 @@ const getOrder = catchAsync(async (req, res) => {
 });
 
 const updateOrder = catchAsync(async (req, res) => {
-  const Order = await orderService.updateOrderById(req.params.OrderId, req.body);
+  const Order = await orderService.updateOrderById(req.params.id, req.body);
   res.send(Order);
 });
 

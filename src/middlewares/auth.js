@@ -1,7 +1,5 @@
-const passport = require('passport');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
-const { tokenTypes } = require('../config/tokens');
 const { tokenService } = require('../services');
 
 const auth = () => async (req, res, next) => {
@@ -16,7 +14,6 @@ const auth = () => async (req, res, next) => {
       throw new ApiError(httpStatus.FORBIDDEN, 'auth token is missing');
     }
     const userId = await tokenService.verifyToken(token);
-
     if (!userId) {
       throw new ApiError(httpStatus.FORBIDDEN, 'use not exist');
     }
@@ -25,5 +22,6 @@ const auth = () => async (req, res, next) => {
     next(err)
   }
 };
+
 
 module.exports = auth;
