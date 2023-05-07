@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 
 const userSchema = mongoose.Schema(
@@ -9,21 +7,53 @@ const userSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
-    type: {
-      type: String, 
-      trim: true,
-    },
     status: {
-      type: String, 
+      type: String,
       trim: true,
     },
-    price: {
-      type: Number,  // veg nonveg
-      trim: 0,
+    total_price: {
+      type: String,
+      trim: true,
     },
-    createdBy: {
-      type: String,  // veg nonveg
-      trim: 0,
+    order_id: {
+      type: Number,
+      trim: true,
+    },
+    user_id: {
+      type: Number,
+      trim: true,
+    },
+    order_date: {
+      type: Date,
+      trim: true,
+    },
+    restaurant_id: {
+      type: Date,
+      trim: true,
+    },
+    is_discount: {
+      type: Boolean,
+      trim: true,
+    },
+    discount_amount: {
+      type: Number,
+      trim: true,
+    },
+    delivery_agent_id: {
+      type: Number,
+      trim: true,
+    },
+    delivery_distance_in_km: {
+      type: Number,
+      trim: true,
+    },
+    delivery_changes: {
+      type: String,
+      trim: true,
+    },
+    discount_name: {
+      type: String,
+      trim: true,
     },
   },
   {

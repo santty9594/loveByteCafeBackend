@@ -6,38 +6,34 @@ const createOrder = async (OrderBody) => {
   return Order.create(OrderBody);
 };
 
-const queryOrders = async (filter, options) => {
-  const Orders = await Order.paginate(filter, options);
+const queryByStatus = async (body) => {
+  let { user_id, status_id, restuarant_id, offset, limit, } = await body
+  const Orders = await Order.find({ user_id, status_id, restuarant_id }).skip(offset).limit(limit);
+  if (Orders && Orders.length < 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Empty');
+  }
   return Orders;
 };
 
-const getOrderById = async (id) => {
-  return Order.findById(id);
-};
 
-const updateOrderById = async (OrderId, updateBody) => {
-  const order = await getOrderById(OrderId);
-  if (!order) {
+const queryByDetails = async (body) => {
+  let { order_id } = await body
+  const Order = await Order.findOne({ order_id });
+  if (!Order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
   }
-  Object.assign(order, updateBody);
-  await order.save();
-  return order;
+  return Orders;
 };
 
-const deleteOrderById = async (OrderId) => {
-  const order = await getOrderById(OrderId);
-  if (!order) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
-  }
-  await order.remove();
-  return order;
+
+const queryAccept = async (OrderBody) => {
+  return Order.create(OrderBody);
 };
+
 
 module.exports = {
   createOrder,
-  queryOrders,
-  getOrderById,
-  updateOrderById,
-  deleteOrderById,
+  queryByStatus,
+  queryAccept,
+  queryByDetails,
 };

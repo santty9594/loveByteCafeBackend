@@ -7,23 +7,40 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
+      require: true,
       trim: true,
     },
-    type: {
-      type: String,  // veg nonveg
-      trim: true,
-    },
-    status: {
+    description: {
       type: String,
       trim: true,
     },
-    price: {
-      type: Number,  // veg nonveg
-      trim: 0,
+    outof_stock: {
+      type: Boolean,
+      default: false,
+      trim: true,
     },
-    createdBy: {
-      type: String,  // veg nonveg
-      trim: 0,
+    price: {
+      type: String,
+      require:true,
+      trim: true,
+    },
+    dish_type: {
+      type: Number,
+      require:true,
+      trim: true,
+    },
+    serving_count: {
+      type: Number,
+      trim: true,
+    },
+    category: {
+      require:true,
+      type: Number,
+      trim: true,
+    },
+    dish_img: {
+      type: Array,
+      require:true
     },
   },
   {

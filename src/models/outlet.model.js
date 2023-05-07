@@ -1,41 +1,138 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 
 const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
+      require: true,
       trim: true,
     },
-    type: {
-      type: String,
+    rest_type: {
+      type: Number,
       trim: true,
-      default: '',
+      require: true,
     },
     status: {
+      type: Number,
+      trim: true,
+      require: true,
+    },
+    price: {
       type: String,
       trim: true,
     },
     address: {
       type: String,
       trim: true,
-      default: '',
-    },
-    phone: {
-      type: Number,
-      trim: true,
-      default: 0,
+      require: true,
     },
     landmark: {
       type: String,
+      require: true,
       trim: true,
-      default: '',
     },
-    createdBy: {
-      type: String,  // veg nonveg
-      trim: 0,
+    long: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    lat: {
+      type: String,
+      trim: true,
+      require: true,
+    },
+    mobile_number: {
+      type: Number,
+      trim: true,
+      require: true,
+    },
+    serving_type: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    logo: {
+      type: String,
+      trim: true,
+    },
+    rest_photos: {
+      type: Array,
+      require: true,
+    },
+    rest_menu: {
+      type: String,
+      trim: true
+    },
+    mon_start_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    mon_end_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    tue_start_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    tue_end_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    wed_start_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    wed_end_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    thu_start_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    thu_end_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    fri_start_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    fri_end_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    sat_start_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    sat_end_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    sun_start_time: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    sun_end_time: {
+      type: Number,
+      require: true,
+      trim: true,
     },
   },
   {
