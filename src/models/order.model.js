@@ -7,6 +7,19 @@ const userSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    order_code: {
+      type: String,
+      trim: true,
+    },
+    outlet_code: {
+      type: String,
+      trim: true,
+    },
+    user_code: {
+      type: String,
+      require: true,
+      trim: true,
+    },
     status: {
       type: String,
       trim: true,
@@ -15,19 +28,7 @@ const userSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
-    order_id: {
-      type: Number,
-      trim: true,
-    },
-    user_id: {
-      type: Number,
-      trim: true,
-    },
     order_date: {
-      type: Date,
-      trim: true,
-    },
-    restaurant_id: {
       type: Date,
       trim: true,
     },

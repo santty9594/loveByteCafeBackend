@@ -8,7 +8,7 @@ const generateOTP = () => {
     return OTP;
 };
 
-const generateUserCode = () => {
+const generateCode = (value) => {
     var otp_length = 4;
     var digits = "0123456789";
     let OTP = "USER_";
@@ -18,4 +18,4 @@ const generateUserCode = () => {
     return OTP;
 };
 
-module.exports = { generateOTP, generateUserCode };
+module.exports = { generateOTP, generateCode };

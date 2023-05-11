@@ -1,28 +1,29 @@
 const httpStatus = require('http-status');
 const { Order } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { generateCode } = require('../utils/helper');
 
 const createOrder = async (OrderBody) => {
+  OrderBody.order_code = await generateCode("Order_");
   return Order.create(OrderBody);
 };
 
 const queryByStatus = async (body) => {
-  let { user_id, status_id, restuarant_id, offset, limit, } = await body
-  const Orders = await Order.find({ user_id, status_id, restuarant_id }).skip(offset).limit(limit);
-  if (Orders && Orders.length < 0) {
+  let { user_code, status, outlet_code, offset, limit, } = await body
+  const order = await Order.find({ user_code, status, outlet_code }).skip(offset).limit(limit);
+  if (order && order.length < 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Empty');
   }
-  return Orders;
+  return order;
 };
 
-
 const queryByDetails = async (body) => {
-  let { order_id } = await body
-  const Order = await Order.findOne({ order_id });
-  if (!Order) {
+  let { order_code } = await body
+  const order = await Order.findOne({ order_code });
+  if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
   }
-  return Orders;
+  return order;
 };
 
 

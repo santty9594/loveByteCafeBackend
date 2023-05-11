@@ -8,6 +8,16 @@ const userSchema = mongoose.Schema(
       require: true,
       trim: true,
     },
+    outlet_code: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    user_code: {
+      type: String,
+      require: true,
+      trim: true,
+    },
     rest_type: {
       type: Number,
       trim: true,

@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const { User } = require('../models');
 const catchAsync = require('../utils/catchAsync');
 const ApiError = require('../utils/ApiError');
-const { generateUserCode } = require('../utils/helper');
+const { generateCode } = require('../utils/helper');
 
 const createUser = async (userBody) => {
   let { phone } = userBody;
@@ -10,7 +10,7 @@ const createUser = async (userBody) => {
   if (phoneExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Phone already taken');
   }
-  userBody.code = await generateUserCode();
+  userBody.code = await generateCode("USER_");
   return User.create(userBody);
 };
 

@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 
 const userSchema = mongoose.Schema(
@@ -8,6 +6,10 @@ const userSchema = mongoose.Schema(
     name: {
       type: String,
       require: true,
+      trim: true,
+    },
+    outlet_code: {
+      type: String,
       trim: true,
     },
     description: {

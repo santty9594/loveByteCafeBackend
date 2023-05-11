@@ -10,17 +10,17 @@ const createOrder = catchAsync(async (req, res) => {
 });
 
 const getOrdersByStaus = catchAsync(async (req, res) => {
-  const result = await orderService.queryByStatus(res.body);
+  const result = await orderService.queryByStatus(req.body);
   res.send(result);
 });
 
 const getOrderDetails = catchAsync(async (req, res) => {
-  const result = await orderService.queryByDetails(res.body);
+  const result = await orderService.queryByDetails(req.body);
   res.send(result);
 });
 
 const accetOrder = catchAsync(async (req, res) => {
-  const result = await orderService.queryAccept(res.body);
+  const result = await orderService.queryAccept(req.body);
   res.send(result);
 });
 
