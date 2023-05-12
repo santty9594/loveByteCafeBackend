@@ -13,6 +13,10 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    is_new_user: {
+      type: Boolean,
+      default: false,
+    },
     type: {
       type: Number, // 1 for vendor app 2 for user 3 for delivery app
       default: 1,

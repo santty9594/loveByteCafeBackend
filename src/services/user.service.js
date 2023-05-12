@@ -10,6 +10,7 @@ const createUser = async (userBody) => {
   if (phoneExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Phone already taken');
   }
+  userBody.is_new_user = !phoneExist ? true : false;
   userBody.code = await generateCode("USER_");
   return User.create(userBody);
 };

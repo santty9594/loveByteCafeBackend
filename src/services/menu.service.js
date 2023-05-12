@@ -6,38 +6,16 @@ const createMenu = async (menuBody) => {
   return Menu.create(menuBody);
 };
 
-const queryMenus = async (filter, options) => {
-  const Menus = await Menu.paginate(filter, options);
-  return Menus;
-};
-
-const getMenuById = async (id) => {
-  return Menu.findById(id);
-};
-
-const updateMenuById = async (MenuId, updateBody) => {
-  const menu = await getMenuById(MenuId);
-  if (!menu) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Menu not found');
+const getMenus = async (body) => {
+  let { outlet_code } = await body
+  const menu = await Menu.find({ outlet_code })
+  if (menu && menu.length < 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Empty');
   }
-  Object.assign(menu, updateBody);
-  await menu.save();
-  return menu;
-};
-
-const deleteMenuById = async (MenuId) => {
-  const menu = await getMenuById(MenuId);
-  if (!menu) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Menu not found');
-  }
-  await menu.remove();
   return menu;
 };
 
 module.exports = {
   createMenu,
-  queryMenus,
-  getMenuById,
-  updateMenuById,
-  deleteMenuById,
+  getMenus,
 };

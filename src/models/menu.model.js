@@ -23,12 +23,12 @@ const userSchema = mongoose.Schema(
     },
     price: {
       type: String,
-      require:true,
+      require: true,
       trim: true,
     },
     dish_type: {
       type: Number,
-      require:true,
+      require: true,
       trim: true,
     },
     serving_count: {
@@ -36,13 +36,13 @@ const userSchema = mongoose.Schema(
       trim: true,
     },
     category: {
-      require:true,
+      require: true,
       type: Number,
       trim: true,
     },
     dish_img: {
       type: Array,
-      require:true
+      require: true
     },
   },
   {

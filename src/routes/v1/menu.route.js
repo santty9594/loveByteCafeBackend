@@ -4,6 +4,6 @@ const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
-router.post('/create',auth(), menuController.createMenu);
-
+router.post('/save_outlet_menu',auth(), menuController.createMenu);
+router.post('/get_outlet_menu',auth(), menuController.getMenu);
 module.exports = router;
