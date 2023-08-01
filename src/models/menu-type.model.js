@@ -6,10 +6,21 @@ const userSchema = mongoose.Schema(
     name: {
       type: String,
       require: true,
+      trim: true, 
+    },
+    status: {
+      type: String,
+      require: true,
       trim: true,
     },
-    menu_id: {
+    price: {
+      type: Number,
+      require: true,
+      trim: true,
+    },
+    type: {
       type: String,
+      require: true,
       trim: true,
     },
   },
@@ -22,6 +33,6 @@ const userSchema = mongoose.Schema(
 userSchema.plugin(toJSON);
 userSchema.plugin(paginate);
 
-const Menu = mongoose.model('menus', userSchema);
+const Menu = mongoose.model('menu-type', userSchema);
 
 module.exports = Menu;

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const { toJSON, paginate } = require('./plugins');
+
 const userSchema = mongoose.Schema(
   {
     code: {
@@ -13,6 +15,15 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    dob: {
+      type: String,
+      trim: true,
+    },
+    email: {
+      unique: true,
+      type: String,
+      trim: true,
+    },
     is_new_user: {
       type: Boolean,
       default: false,
@@ -23,7 +34,7 @@ const userSchema = mongoose.Schema(
     },
     phone: {
       type: Number,
-      unique: true,
+     
       required: true,
       default: 0,
     },
@@ -32,6 +43,10 @@ const userSchema = mongoose.Schema(
       default: '',
     },
     address: {
+      type: String,
+      trim: true,
+    },
+    password: {
       type: String,
       trim: true,
     },
@@ -50,6 +65,26 @@ const userSchema = mongoose.Schema(
 userSchema.plugin(toJSON);
 userSchema.plugin(paginate);
 
+
+userSchema.pre('save', async function (next) {
+  try {
+    if (!this.isModified('password')) return next();
+    const salt = await bcrypt.genSalt(10); // 10 is the number of rounds for hashing
+    const hashedPassword = await bcrypt.hash(this.password, salt);
+    this.password = hashedPassword;
+    next();
+  } catch (err) {
+    return next(err);
+  }
+});
+
+userSchema.methods.comparePassword = async function (password) {
+  try {
+    return await bcrypt.compare(password, this.password);
+  } catch (err) {
+    throw err;
+  }
+};
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

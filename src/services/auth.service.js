@@ -31,8 +31,8 @@ const refreshAuth = async (refreshToken) => {
 
 const verifyPhoneOtp = async (body) => {
   try {
-    const { otp, phone } = body;
-    const user = await User.findOne({ phone });
+    const { email } = body;
+    const user = await User.findOne({ email });
     if (!user) {
       throw new ApiError(httpStatus.UNAUTHORIZED, 'User not Found');
     }

@@ -19,17 +19,13 @@ if (config.env !== 'test') {
   app.use(morgan.errorHandler);
 }
 
-app.use(helmet());
-
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
 
 app.use(xss());
 app.use(mongoSanitize());
 
 app.use(compression());
-
 app.use(cors());
 app.options('*', cors());
 
@@ -43,7 +39,7 @@ app.all('*', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   // next();
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  next(new ApiError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(errorConverter);

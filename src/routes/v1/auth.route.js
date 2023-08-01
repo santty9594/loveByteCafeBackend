@@ -7,7 +7,6 @@ const auth = require('../../middlewares/auth');
 const router = express.Router();
 
 router.post('/register', validate(authValidation.register), authController.register);
-router.post('/logout', validate(authValidation.logout), authController.logout);
-router.post('/verify-otp', authController.verifyPhoneOtp);
+router.post('/login', validate(authValidation.login),authController.verify);
 
 module.exports = router;

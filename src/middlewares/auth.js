@@ -4,6 +4,7 @@ const { tokenService } = require('../services');
 
 const auth = () => async (req, res, next) => {
   try {
+    console.log(req.headers)
     const header = req.headers.authorization
     if (!header) {
       throw new ApiError(httpStatus.FORBIDDEN, 'auth header is missing');

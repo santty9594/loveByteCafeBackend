@@ -1,18 +1,31 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const { generateOTP } = require('../utils/helper');
-const { smsService, authService, userService, tokenService, emailService } = require('../services');
+
+const { authService, userService, tokenService } = require('../services');
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
   res.status(200).json({
     type: "success",
-    message: "Account created OTP sended to mobile number",
+    message: "Signup Successful",
   });
-  const otp = generateOTP();
-  user.phoneOtp = otp;
   await user.save();
-  await smsService.sendSms(otp, user.phone);
+});
+
+const verify = catchAsync(async (req, res) => {
+  const user = await userService.verifyUser(req.body);
+  let token = await tokenService.generateAuthTokens(user);
+  if (!token) {
+    return res.status(401).json({ message: 'Token not created' });
+  }
+  res.status(200).json({
+    message: 'Signin successful',
+    status: 0,
+    data: {
+      token
+    }
+  });
+
 });
 
 const logout = catchAsync(async (req, res) => {
@@ -20,22 +33,7 @@ const logout = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const verifyPhoneOtp = catchAsync(async (req, res) => {
-  const user = await authService.verifyPhoneOtp(req.body);
-  const token = await tokenService.generateAuthTokens(user);
-  user.phoneOtp = "";
-  await user.save();
-  res.status(201).json({
-    type: "success", message: "OTP verified successfully",
-    data: {
-      token,
-      userId: user._id,
-    },
-  });
-});
-
 module.exports = {
   register,
-  logout,
-  verifyPhoneOtp,
+  verify,
 };

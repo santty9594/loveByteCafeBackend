@@ -4,15 +4,14 @@ const { User } = require('../models');
 const config = require('../config/config');
 const ApiError = require('../utils/ApiError');
 
-const generateToken = (userId, expires, secret = config.jwt.secret) => {
+const generateToken = (password, expires, secret = config.jwt.secret) => {
   const payload = {
-    sub: userId,
+    sub: password,
     iat: moment().unix(),
     exp: expires.unix(),
   };
   return jwt.sign(payload, secret);
 };
-
 
 const verifyToken = async (token) => {
   const payload = jwt.verify(token, config.jwt.secret);
@@ -25,7 +24,7 @@ const verifyToken = async (token) => {
 
 const generateAuthTokens = async (user) => {
   const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
-  const accessToken = generateToken(user._id, accessTokenExpires);
+  const accessToken = generateToken(user.password, accessTokenExpires);
   return accessToken;
 };
 

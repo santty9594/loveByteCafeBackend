@@ -14,11 +14,28 @@ const getMenu = catchAsync(async (req, res) => {
   if (!Menu) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Menu not found');
   }
-  res.send(Menu);
+  res.status(200).json({
+    status: 0,
+    message: "Fetch Menus Successful",
+    data: Menu
+  });
+});
+
+const getCategory = catchAsync(async (req, res) => {
+  const Menu = await menuService.getMenuTypes(req.body);
+  if (!Menu) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Menu not found');
+  }
+  res.status(200).json({
+    status: 0,
+    message: "Fetch Menus Category Successful",
+    data: Menu
+  });
 });
 
 
 module.exports = {
   createMenu,
   getMenu,
+  getCategory,
 };
