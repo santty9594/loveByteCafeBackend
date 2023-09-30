@@ -13,7 +13,6 @@ const createOrder = catchAsync(async (req, res) => {
   });
 });
 
-
 const getOrder = catchAsync(async (req, res) => {
   const Order = await orderService.getOrderByDate(req.body);
   res.status(200).json({

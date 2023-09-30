@@ -6,7 +6,13 @@ const { menuService } = require('../services');
 
 const createMenu = catchAsync(async (req, res) => {
   const Menu = await menuService.createMenu(req.body);
-  res.status(httpStatus.CREATED).send(Menu);
+  if (!Menu) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Menu Not Created');
+  }
+  res.status(200).json({
+    status: 0,
+    message: "Menu Created",
+  });
 });
 
 const getMenu = catchAsync(async (req, res) => {
@@ -34,8 +40,33 @@ const getCategory = catchAsync(async (req, res) => {
 });
 
 
+const updateMenu = catchAsync(async (req, res) => {
+  const Menu = await menuService.updateMenu(req.body);
+  if (!Menu) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Menu not found');
+  }
+  res.status(200).json({
+    status: 0,
+    message: "Menu Updated",
+  });
+});
+
+
+const deleteMenu = catchAsync(async (req, res) => {
+  const Menu = await menuService.deleteMenu(req.body);
+  if (!Menu) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Menu not found');
+  }
+  res.status(200).json({
+    status: 0,
+    message: "Menu Deleted",
+  });
+})
+
 module.exports = {
   createMenu,
   getMenu,
   getCategory,
+  updateMenu,
+  deleteMenu
 };

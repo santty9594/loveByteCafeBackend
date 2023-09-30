@@ -15,13 +15,30 @@ const getMenus = async (body) => {
   return menu;
 };
 
+const updateMenu = async (body) => {
+  let { id, name, price } = await body
+  const menu = await Menu.updateOne({ _id: id },
+    {
+      $set: { name, price }
+    },
+    { upsert: true }
+  )
+  return menu;
+};
+
+const deleteMenu = async (body) => {
+  let { id } = await body
+  const menu = await Menu.remove({ _id: id })
+  return menu;
+};
+
 const getMenuTypes = async (body) => {
   let { outlet_code } = await body
   const menu = await MenuCategory.find({})
   if (menu && menu.length < 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Empty');
   }
-  if(menu){
+  if (menu) {
     menu.reverse();
   }
   return menu;
@@ -31,4 +48,6 @@ module.exports = {
   createMenu,
   getMenus,
   getMenuTypes,
+  updateMenu,
+  deleteMenu,
 };

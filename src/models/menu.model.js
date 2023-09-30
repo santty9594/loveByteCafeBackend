@@ -8,7 +8,11 @@ const userSchema = mongoose.Schema(
       require: true,
       trim: true,
     },
-    menu_id: {
+    menuid: {
+      type: Number,
+      trim: true,
+    },
+    status: {
       type: String,
       trim: true,
     },

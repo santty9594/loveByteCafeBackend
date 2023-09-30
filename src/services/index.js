@@ -5,5 +5,5 @@ module.exports.userService = require('./user.service');
 module.exports.orderService = require('./order.service');
 module.exports.menuService = require('./menu.service');
 module.exports.customerService = require('./customer.service');
-module.exports.outletService = require('./outlet.service');
+module.exports.inventoryService = require('./inventory.service');
 module.exports.smsService = require('./sms.services');

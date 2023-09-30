@@ -5,7 +5,7 @@ const userRoute = require('./user.route');
 const menuRoute = require('./menu.route');
 const customerRoute = require('./customer.route');
 const orderRoute = require('./order.route');
-const outletRoute = require('./outlet.route');
+const inventoryRoute = require('./inventory.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -33,8 +33,8 @@ const defaultRoutes = [
     route: customerRoute,
   },
   {
-    path: '/outlet',
-    route: outletRoute,
+    path: '/inventory',
+    route: inventoryRoute,
   },
 ];
 
