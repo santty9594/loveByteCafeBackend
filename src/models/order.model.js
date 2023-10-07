@@ -11,6 +11,10 @@ const userSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    payment_mode: {
+      type: String,
+      trim: true,
+    },
     order_code: {
       type: String,
       trim: true,
