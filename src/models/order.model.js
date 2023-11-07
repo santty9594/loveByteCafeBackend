@@ -11,6 +11,14 @@ const userSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    customer_phone: {
+      type: Number,
+      trim: true,
+    },
+    customer_gender: {
+      type: String,
+      trim: true,
+    },
     payment_mode: {
       type: String,
       trim: true,
