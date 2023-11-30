@@ -3,6 +3,26 @@ const { toJSON, paginate } = require('./plugins');
 
 const userSchema = mongoose.Schema(
   {
+    table_no: {
+      type: String,
+      trim: true,
+    },
+    order_in_time: {
+      type: String,
+      trim: true,
+    },
+    order_out_time: {
+      type: String,
+      trim: true,
+    },
+    table_charge: {
+      type: Number,
+      trim: true,
+    },
+    order_amount: {
+      type: Number,
+      trim: true,
+    },
     customer_id: {
       type: String,
       trim: true,
