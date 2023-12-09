@@ -19,6 +19,10 @@ const userSchema = mongoose.Schema(
       type: Number,
       trim: true,
     },
+    table_type: {
+      type: String,
+      trim: true,
+    },
     order_amount: {
       type: Number,
       trim: true,
