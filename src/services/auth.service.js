@@ -28,7 +28,6 @@ const refreshAuth = async (refreshToken) => {
   }
 };
 
-
 const verifyPhoneOtp = async (body) => {
   try {
     const { email } = body;

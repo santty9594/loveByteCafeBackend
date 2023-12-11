@@ -15,7 +15,6 @@ const getMenus = async (body) => {
   return menu;
 };
 
-
 const getMenuTypes = async (body) => {
   let { outlet_code } = await body
   const menu = await MenuType.find({})

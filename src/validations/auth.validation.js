@@ -2,8 +2,8 @@ const Joi = require('joi');
 
 const register = {
   body: Joi.object().keys({
-    email: Joi.string().required(),
-    password: Joi.string().required()
+    name: Joi.string().required(),
+    phone: Joi.string().required()
   }).unknown(true),
 };
 

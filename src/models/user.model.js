@@ -15,40 +15,37 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    dob: {
-      type: String,
-      trim: true,
-    },
-    email: {
-      unique: true,
-      type: String,
-      trim: true,
-    },
-    is_new_user: {
+    isNewUser: {
       type: Boolean,
       default: false,
     },
-    type: {
+    user_type: {
       type: Number, // 1 for vendor app 2 for user 3 for delivery app
       default: 1,
     },
     phone: {
       type: Number,
-     
       required: true,
       default: 0,
     },
     phoneOtp: {
       type: String,
+    },
+    adharCard: {
+      type: String,
       default: '',
     },
-    address: {
+    panCard: {
       type: String,
-      trim: true,
+      default: '',
     },
-    password: {
+    hotelLicense: {
       type: String,
-      trim: true,
+      default: '',
+    },
+    drivingLicense: {
+      type: String,
+      default: '',
     },
     role: {
       type: String,

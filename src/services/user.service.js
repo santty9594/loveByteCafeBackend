@@ -3,29 +3,55 @@ const { User } = require('../models');
 const bcrypt = require('bcryptjs');
 const catchAsync = require('../utils/catchAsync');
 const ApiError = require('../utils/ApiError');
-const { generateCode } = require('../utils/helper');
+const { generateCode, generateOTP } = require('../utils/helper');
 
 const createUser = async (userBody) => {
-  let { email } = userBody;
-  const emailExist = await User.findOne({ email });
-  if (emailExist) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  let { phone, user_type } = userBody;
+  console.log(userBody)
+  const phoneExist = await User.findOne({ phone });
+  if (phoneExist) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Phone already taken');
   }
-  userBody.is_new_user = !emailExist ? true : false;
+  userBody.isNewUser = !phoneExist ? true : false;
+  userBody.user_type = user_type;
   userBody.code = await generateCode("USER_");
+  userBody.phoneOtp = await generateOTP();
+  //SMS will be trigger here
   return User.create(userBody);
 };
 
+
+const resendOTP = async (userBody) => {
+  let { phone } = userBody;
+  const user = await User.findOne({ phone });
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Phone number not exist');
+  }
+  user.phoneOtp = await generateOTP();
+  await user.save();
+  return user;
+};
+
+const loginWithOtp = async (userBody) => {
+  const { otp } = userBody;
+  const user = await User.findOne({ phoneOtp: otp });
+  if (!user) {
+    next({ status: 400, message: PHONE_NOT_FOUND_ERR });
+    return;
+  }
+  user.phoneOtp = await generateOTP();
+  await user.save();
+  return user;
+};
+
 const verifyUser = async (userBody) => {
-  let { email, password } = userBody;
-  const user = await User.findOne({ email });
+  let { otp } = userBody;
+  const user = await User.findOne({ phoneOtp: otp });
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User not found')
   }
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid credentials')
-  }
+  user.phoneOtp = '';
+  await user.save();
   return user;
 };
 
@@ -43,7 +69,6 @@ const getUserByEmail = async (email) => {
   return User.findOne({ email });
 };
 
-
 const deleteUserById = async (userId) => {
   const user = await getUserById(userId);
   if (!user) {
@@ -56,7 +81,9 @@ const deleteUserById = async (userId) => {
 
 module.exports = {
   createUser,
+  loginWithOtp,
   verifyUser,
+  resendOTP,
   queryUsers,
   getUserById,
   getUserByEmail,
