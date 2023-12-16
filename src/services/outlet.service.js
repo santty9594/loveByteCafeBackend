@@ -12,7 +12,7 @@ const getAllOulet = async (body) => {
 };
 
 const getOutletById = async (id) => {
-  return Outlet.findOne({ outlet_code: id });
+  return Outlet.findOne({ _id: id });
 };
 
 module.exports = {
