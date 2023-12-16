@@ -28,22 +28,26 @@ const userSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
-    phoneOtp: {
+    phone_otp: {
       type: String,
     },
-    adharCard: {
-      type: String,
-      default: '',
-    },
-    panCard: {
+    adhar_card_front: {
       type: String,
       default: '',
     },
-    hotelLicense: {
+    adhar_card_back: {
       type: String,
       default: '',
     },
-    drivingLicense: {
+    pan_card: {
+      type: String,
+      default: '',
+    },
+    hote_license: {
+      type: String,
+      default: '',
+    },
+    driving_license: {
       type: String,
       default: '',
     },

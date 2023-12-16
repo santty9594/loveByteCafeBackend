@@ -36,9 +36,10 @@ const resendOTP = catchAsync(async (req, res) => {
   }
 });
 
-const loginWithOtp = catchAsync(async (req, res) => {
-  await userService.createUser(req.body);
+const loginWithPhone = catchAsync(async (req, res) => {
+  await userService.loginWithPhone(req.body);
   res.status(201).json({
+    status:0,
     type: "success",
     message: "OTP sended to your registered phone number",
   });
@@ -53,4 +54,5 @@ module.exports = {
   resendOTP,
   register,
   verify,
+  loginWithPhone,
 };

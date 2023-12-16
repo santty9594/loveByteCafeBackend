@@ -7,7 +7,6 @@ const { generateCode, generateOTP } = require('../utils/helper');
 
 const createUser = async (userBody) => {
   let { phone, user_type } = userBody;
-  console.log(userBody)
   const phoneExist = await User.findOne({ phone });
   if (phoneExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Phone already taken');
@@ -15,7 +14,7 @@ const createUser = async (userBody) => {
   userBody.isNewUser = !phoneExist ? true : false;
   userBody.user_type = user_type;
   userBody.code = await generateCode("USER_");
-  userBody.phoneOtp = await generateOTP();
+  userBody.phone_otp = await generateOTP();
   //SMS will be trigger here
   return User.create(userBody);
 };
@@ -27,30 +26,29 @@ const resendOTP = async (userBody) => {
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Phone number not exist');
   }
-  user.phoneOtp = await generateOTP();
+  user.phone_otp = await generateOTP();
   await user.save();
   return user;
 };
 
-const loginWithOtp = async (userBody) => {
-  const { otp } = userBody;
-  const user = await User.findOne({ phoneOtp: otp });
+const loginWithPhone = async (userBody) => {
+  const { phone } = userBody;
+  const user = await User.findOne({ phone});
   if (!user) {
-    next({ status: 400, message: PHONE_NOT_FOUND_ERR });
-    return;
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Phone number not exist');
   }
-  user.phoneOtp = await generateOTP();
+  user.phone_otp = await generateOTP();
   await user.save();
   return user;
 };
 
 const verifyUser = async (userBody) => {
   let { otp } = userBody;
-  const user = await User.findOne({ phoneOtp: otp });
+  const user = await User.findOne({ phone_otp: otp });
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User not found')
   }
-  user.phoneOtp = '';
+  user.phone_otp = '';
   await user.save();
   return user;
 };
@@ -81,7 +79,7 @@ const deleteUserById = async (userId) => {
 
 module.exports = {
   createUser,
-  loginWithOtp,
+  loginWithPhone,
   verifyUser,
   resendOTP,
   queryUsers,

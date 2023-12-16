@@ -5,7 +5,8 @@ const generateOTP = () => {
     for (let i = 0; i < otp_length; i++) {
         OTP += digits[Math.floor(Math.random() * 10)];
     }
-    return OTP;
+    // return OTP;
+    return '123456';
 };
 
 const generateCode = (value) => {
