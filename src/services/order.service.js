@@ -9,8 +9,44 @@ const createOrder = async (OrderBody) => {
 };
 
 const getOrderByDate = async (body) => {
-  let { user_code, status, outlet_code, offset, limit, } = await body
-  const order = await Order.find({});
+  let { filter } = await body
+  let startDate, endDate;
+
+  switch (filter) {
+    case 'today':
+      startDate = new Date();
+      startDate.setHours(0, 0, 0, 0);
+      endDate = new Date();
+      endDate.setHours(23, 59, 59, 999);
+      break;
+    case 'yesterday':
+      startDate = new Date();
+      startDate.setDate(startDate.getDate() - 1);
+      startDate.setHours(0, 0, 0, 0);
+      endDate = new Date();
+      endDate.setDate(endDate.getDate() - 1);
+      endDate.setHours(23, 59, 59, 999);
+      break;
+    case 'last30days':
+      startDate = new Date();
+      startDate.setDate(startDate.getDate() - 29);
+      startDate.setHours(0, 0, 0, 0);
+      endDate = new Date();
+      endDate.setHours(23, 59, 59, 999);
+      break;
+    case 'daterange':
+      const { start, end } = req.query;
+      startDate = new Date(start);
+      endDate = new Date(end);
+      endDate.setHours(23, 59, 59, 999);
+      break;
+    default:
+      // No filter, retrieve all data
+      break;
+  }
+
+  const query = startDate && endDate ? { timestamp: { $gte: startDate, $lte: endDate } } : {};
+  const order = await Order.find(query);
   if (order && order.length < 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Empty');
   }
