@@ -9,7 +9,8 @@ const createOrder = async (OrderBody) => {
 };
 
 const getOrderByDate = async (body) => {
-  let { filter } = await body
+  let { filter, fromDate, toDate } = await body
+  console.log("getOrderByDate>>",fromDate, toDate )
   let startDate, endDate;
 
   switch (filter) {
@@ -35,17 +36,16 @@ const getOrderByDate = async (body) => {
       endDate.setHours(23, 59, 59, 999);
       break;
     case 'daterange':
-      const { start, end } = req.query;
-      startDate = new Date(start);
-      endDate = new Date(end);
+      startDate = new Date(fromDate);
+      endDate = new Date(toDate);
       endDate.setHours(23, 59, 59, 999);
       break;
     default:
       // No filter, retrieve all data
       break;
   }
-
-  const query = startDate && endDate ? { timestamp: { $gte: startDate, $lte: endDate } } : {};
+  const query = startDate && endDate ? { order_date: { $gte: startDate, $lte: endDate } } : {};
+  console.log(query)
   const order = await Order.find(query);
   if (order && order.length < 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Empty');
